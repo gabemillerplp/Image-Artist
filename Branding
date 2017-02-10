@@ -48,3 +48,21 @@ def logo_paste(original_image):
 
     result = img
     return result
+
+def slogoan_paste(original_image):
+    directory = os.getcwd() # Use working directory if unspecified
+    # Create a new directory 'modified'
+    new_directory = os.path.join(directory, 'branded')
+    try:
+        os.mkdir(new_directory)
+    except OSError:
+        pass # if the directory already exists, proceed
+        
+    slogoan_file = os.path.join(directory, 'slogoan.png')
+    slogoan = PIL.Image.open(slogoan_file)
+    img = original_image
+    slogoan_small = slogoan.resize((150, 150)) #logo width and height measured in plt
+    img.paste(slogoan_small, (100, 10), mask=slogoan_small)
+
+    result = img
+    return result
