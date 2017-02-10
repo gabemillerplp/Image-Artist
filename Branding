@@ -31,3 +31,20 @@ def get_images(directory=None):
             pass # do nothing with errors tying to open non-images
     return image_list, file_list
 
+def logo_paste(original_image):
+    directory = os.getcwd() # Use working directory if unspecified
+    # Create a new directory 'modified'
+    new_directory = os.path.join(directory, 'branded')
+    try:
+        os.mkdir(new_directory)
+    except OSError:
+        pass # if the directory already exists, proceed
+        
+    logo_file = os.path.join(directory, 'logo.png')
+    logo = PIL.Image.open(logo_file)
+    img = original_image
+    logo_small = logo.resize((80, 80)) #logo width and height measured in plt
+    img.paste(logo_small, (10, 70), mask=logo_small)
+
+    result = img
+    return result
