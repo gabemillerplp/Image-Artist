@@ -66,3 +66,30 @@ def slogoan_paste(original_image):
 
     result = img
     return result
+
+def brand_all(directory=None):
+    if directory == None:
+        directory = os.getcwd() # Use working directory if unspecified
+        
+    # Create a new directory 'modified'
+    new_directory = os.path.join(directory, 'branded')
+    try:
+        os.mkdir(new_directory)
+    except OSError:
+        pass # if the directory already exists, proceed  
+   
+    image_list, file_list = get_images(directory)    
+   
+    #go through the images and save branded versions
+    for n in range(len(image_list)):
+        # Parse the filename
+        filename, filetype = os.path.splitext(file_list[n])
+        # Paste logo
+        logo_image = logo_paste(image_list[n])
+        new_image = slogoan_paste(logo_image)
+
+        #save the altered image, suing PNG to retain transparency
+        new_image_filename = os.path.join(new_directory, filename + '.png')
+        new_image.save(new_image_filename)
+    
+    
